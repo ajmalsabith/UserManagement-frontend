@@ -8,7 +8,7 @@ import { Emitters } from 'src/app/emitters/emitters';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  message = ""
+  message = "your not loged in"
 
   constructor(private http:HttpClient){}
 
@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
     })
     .subscribe((res:any)=>{
       Emitters.authEmitter.emit(true);
+      this.message=`Hi ${res.name}`
     },
     (err)=>{
       Emitters.authEmitter.emit(false);

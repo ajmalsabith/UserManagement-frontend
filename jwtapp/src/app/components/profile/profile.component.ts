@@ -8,6 +8,7 @@ import { retrieveprofile } from '../state/app.actions';
 import { Router } from '@angular/router';
 import { userProfile } from '../state/app.selectors';
 import { Profile } from '../models/allUsers';
+import *as env  from "../../../environments/environment.development";
 
 @Component({
   selector: 'app-profile',
@@ -17,8 +18,8 @@ import { Profile } from '../models/allUsers';
 export class ProfileComponent implements OnInit {
   form:FormGroup
 
-  public name: any = ""
-  public email: any = ""
+  public name: string = ""
+  public email: string = ""
   img:any = "";
   selectedFile:any|File = null;
 
@@ -37,7 +38,7 @@ export class ProfileComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.http.get('http://localhost:5000/api/user',{
+    this.http.get(env.environment.url+'/api/user',{
       withCredentials:true
     })
     .subscribe((res:any)=>{
@@ -59,7 +60,7 @@ export class ProfileComponent implements OnInit {
     const formData = new FormData();
     formData.append('image',this.selectedFile,this.selectedFile.name);
     console.log(formData);
-    this.http.post('http://localhost:5000/api/profile-upload-single',formData,{
+    this.http.post(env.environment.url+'/api/profile-upload-single',formData,{
       withCredentials:true
     }).subscribe((res:any)=>{
       Emitters.authEmitter.emit(true);

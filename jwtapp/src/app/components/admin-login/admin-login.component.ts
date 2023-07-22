@@ -4,6 +4,8 @@ import { FormBuilder,FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Emitters } from 'src/app/emitters/emitters';
 import Swal from 'sweetalert2';
+import *as env  from "../../../environments/environment.development";
+
 
 @Component({
   selector: 'app-admin-login',
@@ -19,13 +21,12 @@ export class AdminLoginComponent implements OnInit {
     private http:HttpClient,
     private router:Router
   ){}
-
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       email:'',
       password:''
     })
-    this.http.get('http://localhost:5000/api/admin/active',{
+    this.http.get(env.environment.url+'/api/admin/active',{
       withCredentials:true
     }).subscribe((res:any)=>{
       this.router.navigate(['/admin/dashboard'])
@@ -56,7 +57,7 @@ export class AdminLoginComponent implements OnInit {
     }else if(!this.ValidateEmail(user.email)){
       Swal.fire("Error","Please enter a valid email","error");
     }else{
-      this.http.post("http://localhost:5000/api/admin/login",user,{
+      this.http.post(env.environment.url+"/api/admin/login",user,{
         withCredentials:true
       }).subscribe((res)=>this.router.navigate(['/admin/dashboard']),
         (err)=>{

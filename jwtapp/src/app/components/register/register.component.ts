@@ -3,6 +3,8 @@ import { Component ,OnInit } from '@angular/core';
 import { FormGroup,FormBuilder } from '@angular/forms'
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
+import *as env  from "../../../environments/environment.development";
+
 
 @Component({
   selector: 'app-register',
@@ -44,7 +46,7 @@ export class RegisterComponent implements OnInit {
     }else if(!this.ValidateEmail(user.email)){
       Swal.fire("Error","Please enter a valid email","error");
     }else{
-      this.http.post("http://localhost:5000/api/register",user,{
+      this.http.post(env.environment.url+"/api/register",user,{
         withCredentials:true
       })
       .subscribe(()=>{

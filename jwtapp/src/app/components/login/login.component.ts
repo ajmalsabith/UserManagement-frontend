@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Emitters } from 'src/app/emitters/emitters';
 import Swal from 'sweetalert2';
+import *as env  from "../../../environments/environment.development";
+
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,7 @@ export class LoginComponent implements OnInit {
       email:'',
       password:''
     })
-    this.http.get('http://localhost:5000/api/user',{
+    this.http.get(env.environment.url+'/api/user',{
       withCredentials:true
     }).subscribe((res:any)=>{
       
@@ -57,7 +59,7 @@ export class LoginComponent implements OnInit {
     }else if(!this.ValidateEmail(user.email)){
       Swal.fire("Error","Please enter a valid email","error");
     }else{
-      this.http.post("http://localhost:5000/api/login",user,{
+      this.http.post(env.environment.url+"/api/login",user,{
         withCredentials:true
       }).subscribe((res)=>this.router.navigate(['/']),
         (err)=>{
